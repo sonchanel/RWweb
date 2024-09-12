@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attack Card</title>
+  <link rel="icon" href="images/Logo.png" type="image/png">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .filters {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .filter-button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+    .filter-button:hover {
+      background-color: #0056b3;
+    }
+    .card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      overflow: hidden;
+      padding: 10px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card img {
+      border-radius: 8px;
+      max-width: 100%;
+      height: auto;
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: scale(1.3); /* Phóng to */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Tăng hiệu ứng bóng khi hover */
+    }
+    .card:hover img {
+      transform: scale(1.0); /* Phóng to ảnh khi hover */
+    }
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr); /* 5 cột */
+      gap: 20px;
+      justify-content: center;
+    }
+    /* Định dạng chung cho các nút */
+    .filter-button {
+      background-color: #28a745; /* Màu nền */
+      color: white; /* Màu chữ */
+      border: none; /* Không có viền */
+      border-radius: 25px; /* Bo góc */
+      padding: 10px 20px; /* Khoảng cách giữa chữ và viền */
+      font-size: 16px; /* Kích thước chữ */
+      margin: 5px; /* Khoảng cách giữa các nút */
+      cursor: pointer; /* Con trỏ dạng bàn tay khi hover */
+      transition: all 0.3s ease; /* Hiệu ứng chuyển động khi hover */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Đổ bóng cho nút */
+    }
+
+    /* Hiệu ứng hover */
+    .filter-button:hover {
+      background-color: #218838; /* Màu nền khi hover */
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Tăng đổ bóng khi hover */
+      transform: translateY(-2px); /* Hiệu ứng nhấc nút lên khi hover */
+    }
+
+    /* Định dạng khi nút được nhấn */
+    .filter-button:active {
+      background-color: #1e7e34; /* Màu nền khi nhấn */
+      transform: translateY(1px); /* Nút hạ xuống nhẹ khi nhấn */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Trở lại trạng thái bóng trước đó */
+    }
+    /* Định dạng chung cho thanh tìm kiếm */
+    .search-bar {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .search-input {
+        padding: 10px;
+        width: 50%;
+        font-size: 16px;
+        border: 2px solid #ddd;
+        border-radius: 25px;
+        transition: border 0.3s ease;
+    }
+    
+    .search-input:focus {
+        border-color: #28a745; /* Màu viền khi focus */
+        outline: none; /* Loại bỏ viền mặc định của trình duyệt */
+    }
+    
+    .card h2 {
+        display: none; /* Ẩn thẻ h2 */
+      }
+      
+    @media (max-width: 768px) {
+      .card-container {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Responsive */
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Danh sách lá bài TẤN CÔNG</h1>
+    <div class="filters">
+      <button class="filter-button" data-filter="all">Tất cả</button>
+      <% categories.forEach(category => { %>
+        <button class="filter-button" data-filter="<%= category %>"><%= category %></button>
+      <% }); %>
+    </div>
+
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Tìm kiếm ..." class="search-input">
+    </div>
+
+    <div id="card-container" class="card-container">
+      <% if (data && data.length) { %>
+        <% data.forEach(item => { %>
+          <div class="card" data-category="<%= item['Type'] || '' %>">
+            <% if (headers.includes('Name')) { %>
+              <h2><%= item['Name'] %></h2>
+            <% } %>
+            <% if (item['Image']) { %>
+              <img src="images/Card/Attack/<%= item['Image'] %>" alt="<%= item['Name'] %>">
+            <% } else { %>
+              <p>Ảnh không có sẵn</p>
+            <% } %>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <p style="text-align: center; color: #666;">No data available</p>
+      <% } %>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const filterButtons = document.querySelectorAll('.filter-button');
+      const cards = document.querySelectorAll('.card');
+      const searchInput = document.getElementById('searchInput');
+  
+      // Lọc theo thể loại khi nhấn vào button
+      filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const filter = button.getAttribute('data-filter');
+  
+          cards.forEach(card => {
+            const category = card.getAttribute('data-category');
+            if (filter === 'all' || filter === category) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+  
+      // Lọc theo tên khi nhập vào thanh tìm kiếm
+      searchInput.addEventListener('input', function() {
+        const searchValue = searchInput.value.toLowerCase();
+        cards.forEach(card => {
+          const cardNameElement = card.querySelector('h2');
+          console.log(cardNameElement)
+          if (cardNameElement) {
+            const cardName = cardNameElement.innerText.toLowerCase();
+            if (cardName.includes(searchValue)) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+  
+</body>
+</html>
