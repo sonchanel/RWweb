@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "rival-war",
+  "private_key_id": "a49295d4d376ae9f18afa0882f3204dc24fa4f44",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCShUpb2qk8dYBt\nZgeI4kgW6i25jmpjl0x0kcvXTFBPogkDYtzBRC1eh5qHCNZnFtW38NNO2eLxN5Ao\nv+T+Olpr9YonZQw0kORW5vSG8zHTk/v5JxRYRXVxVPbAtfR4FWDgxw5w8FLUhPMP\nV5WPlQ8tOOvJL5TArRmun35uhjpLaf0fq+3w8XqABaIl0yEtYnczMQIWWayklV9e\nj+hoAv2IWwKA/BS7BvtJCPTRCz+aeFlTS3OujQlpwi00Nyw9jrGt/FWHJWgiIzE2\nIXNOjIzRvee1rcbyp6ibsmSNestiEMEaulaGU170gUPU7/VNMTJrnMsCIH2LxMmb\nNQD2JgIfAgMBAAECggEARSlDoz4AunggagNKNTPSoXZipP7zexUU0sVrObJdCmnK\n5V1KJLQg0kkiCPGD+t9NfGjh5Yt10zTOCF4kIli7C9C4KMZKz5lBH0AfVn//Ggb1\nXnMy6EPJHvjjDK4WuoQk2ZU8XNUj1Ar5jFlkUIUkx8zhh3K9PYG36LSCgns7kxK6\nqyY0D+UV0AFL/KdZAe1F20fjbHbkZasyVkNeIiEVKiDtjMo34+xACUgUi6HuCkjA\njh7pPJ+kA8qVX7BGSOJyL2bYSfTz23HW7wO7MC5zTZA2dLiAYR4Q9KSpEY/1yrJu\nQMDkuLjWKPf56YlCIUSTUwRiXgXQbMlVClPRlabX2QKBgQDHqKwfWJ0JT4wVd12E\nXKHGdOapgzH6J2R/sx88B9B+NaUEYO5A89bfVLXEn517ioAeBlrkc77AXCkmR+3M\n/sUhxyH+WA49UNpY2G656h1DMsy39sMcg8Hu6vc2ZUt7bLYrtGDdmubXv4V5fHCW\nO41fqE/w3m5KOXoLuvW6gC5pwwKBgQC73evxu0zwUuZOHIlHGsx+MUeI6Jq6BfZK\nv/DW9xkBs1V6qg6Ih08PQWjUdEYOCvb5oL2wAzIuT8mxgpqrgptLLxjWzP//ZKOd\ndno+J9H+JAPMOeXhuXJoJZVOXPC7D8q9oAUIynmSOSDfoDX83DVAJHba3UM09po0\nJIubwGrkdQKBgBgdu4ydu3ogbZ86J8WRGslJ3YKkIilBENaL4D30A67688+vlZeq\n3E1lgf8Z+H+vnwIBaoElqei6OQ4yqfqU22LVFroOEMo/NeB9ZAJ40MgJHskpuS98\nirQ9FVcwrQlffDGTPBAIYdG1hH3EFiVPVCg1wFIry86TWraIAp5gVTrZAoGASaGD\nFi1IzHBRX5ADpeC1AUijNt+jtQEdNNLhu/8AyA/XksoQBCa0L9B9G7eutVZK0i/T\n6KZ4BnqzHGWJ5Wq9HsyIubeDJj/1eIO1CaNlxGutKWAP31ZlprgEOsBmgYqA9a1A\nC9//ofXOEpeiUUalgExKYSGTc7CrY4BnT1YtDvkCgYAnDI7kNnOSk/E/xIVI44KL\nk3/X+KZRl4RzpKlPWia3x+rSSxmgzBdSwV++KUW86+nJy0bAF+lM4kVvsCLbabXM\n5gnGF1Nk/OwxtzrZImiXRUzzA1lV1zQ0CS24oZvChjsMzvv9y94EpEn/OvjEn2Hz\npNqE+ND3LVE3cRvgxuvXXg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "rw-569@rival-war.iam.gserviceaccount.com",
+  "client_id": "104078110511881691996",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/rw-569%40rival-war.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
