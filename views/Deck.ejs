@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Card Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .filters {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .filter-button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+    .filter-button:hover {
+      background-color: #0056b3;
+    }
+    .card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      overflow: hidden;
+      padding: 10px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card img {
+      border-radius: 8px;
+      max-width: 100%;
+      height: auto;
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: scale(1.3); /* Phóng to */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Tăng hiệu ứng bóng khi hover */
+    }
+    .card:hover img {
+      transform: scale(1.0); /* Phóng to ảnh khi hover */
+    }
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr); /* 5 cột */
+      gap: 20px;
+      justify-content: center;
+    }
+    /* Định dạng chung cho các nút */
+    .filter-button {
+      background-color: #28a745; /* Màu nền */
+      color: white; /* Màu chữ */
+      border: none; /* Không có viền */
+      border-radius: 25px; /* Bo góc */
+      padding: 10px 20px; /* Khoảng cách giữa chữ và viền */
+      font-size: 16px; /* Kích thước chữ */
+      margin: 5px; /* Khoảng cách giữa các nút */
+      cursor: pointer; /* Con trỏ dạng bàn tay khi hover */
+      transition: all 0.3s ease; /* Hiệu ứng chuyển động khi hover */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Đổ bóng cho nút */
+    }
+
+    /* Hiệu ứng hover */
+    .filter-button:hover {
+      background-color: #218838; /* Màu nền khi hover */
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Tăng đổ bóng khi hover */
+      transform: translateY(-2px); /* Hiệu ứng nhấc nút lên khi hover */
+    }
+
+    /* Định dạng khi nút được nhấn */
+    .filter-button:active {
+      background-color: #1e7e34; /* Màu nền khi nhấn */
+      transform: translateY(1px); /* Nút hạ xuống nhẹ khi nhấn */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Trở lại trạng thái bóng trước đó */
+    }
+    /* Định dạng chung cho thanh tìm kiếm */
+    .search-bar {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .search-input {
+        padding: 10px;
+        width: 50%;
+        font-size: 16px;
+        border: 2px solid #ddd;
+        border-radius: 25px;
+        transition: border 0.3s ease;
+    }
+    
+    .search-input:focus {
+        border-color: #28a745; /* Màu viền khi focus */
+        outline: none; /* Loại bỏ viền mặc định của trình duyệt */
+    }
+    
+    .card h2 {
+        display: none; /* Ẩn thẻ h2 */
+      }
+      
+    @media (max-width: 768px) {
+      .card-container {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Responsive */
+      }
+    }
+    .pointer {
+      display: flex; /* Sử dụng Flexbox */
+      justify-content: space-between; /* Tách biệt tên và số lượng */
+      align-items: center; /* Căn giữa theo chiều dọc */
+      background-color: #007bff; /* Màu nền */
+      color: white; /* Màu chữ */
+      padding: 10px 20px; /* Khoảng cách bên trong */
+      border: none; /* Không viền */
+      border-radius: 5px; /* Bo góc */
+      margin: 5px 0; /* Khoảng cách giữa các thẻ */
+      cursor: pointer; /* Hiển thị con trỏ */
+      transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
+      text-align: left; /* Căn trái văn bản */
+      overflow: hidden; /* Ẩn phần tràn */
+  }
+  
+  .pointer-name {
+      flex: 1; /* Tên sẽ chiếm không gian còn lại */
+      white-space: normal; /* Cho phép xuống dòng */
+      overflow-wrap: break-word; /* Ngắt dòng khi cần */
+  }
+  
+  .pointer-quantity {
+      margin-left: 10px; /* Khoảng cách giữa tên và số lượng */
+  }
+  .modal {
+    display: none; /* Ẩn modal */
+    position: fixed; /* Giữ nó ở vị trí cố định */
+    z-index: 1; /* Đưa nó lên trên cùng */
+    left: 0;
+    top: 0;
+    width: 100%; /* Toàn bộ màn hình */
+    height: 100%; /* Toàn bộ màn hình */
+    overflow: auto; /* Cho phép cuộn nếu cần */
+    background-color: rgba(0, 0, 0, 0.5); /* Màu nền với độ mờ */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* Căn giữa modal */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px; /* Chiều rộng modal */
+    border-radius: 8px;
+    text-align: center;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+button {
+  color: #000;
+    background-color: #ffc107;
+    padding: 10px 15px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button#confirmDelete {
+    background-color: red;
+    color: white;
+}
+
+button#cancelDelete {
+    background-color: grey;
+    color: white;
+}
+.buttonback{
+  border-color: transparent;
+  border-style: solid;
+  border-width: 1px;
+  transition: 0.3s;
+}
+.buttonback:hover{
+  border-color: #f44c66;
+}
+#description {
+  width: 80%;
+  height: 100px;
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid #007BFF;
+  border-radius: 5px;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  resize: vertical;
+  transition: border-color 0.3s;
+}
+
+#description:focus {
+  border-color: #0056b3;
+  outline: none;
+}
+#hover-image {
+  width: 100px;
+  height: auto;
+  pointer-events: none; /* Không cho phép tương tác với ảnh */
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button onclick="window.location.href = `/TaiKhoan`" class="m-2 btn btn-group buttonback" style="color: #f44c66; background-color: transparent;"><<< Quay lại</button>
+
+    <div style="display: flex; justify-content: space-between;">
+      <input type="text" id="name_deck" placeholder="Tên deck" class="search-input" value="<%= namedeck %>" style="width: 20%;">
+      <div class="filters">
+        <button class="filter-button" data-filter="all">Tất cả</button>
+        <% categories.forEach(category => { %>
+          <button class="filter-button" data-filter="<%= category %>"><%= category %></button>
+        <% }); %>
+      </div>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Tìm kiếm ..." class="search-input" style="min-width: 30%; width: 80%;">
+      </div>
+    </div>
+  
+  <div style="display: flex; justify-content: space-between;">
+    <div id="card-container" class="card-container" style="flex: 10; padding: 20px;">
+        <% if (cards_user && cards_user.length) { %>
+            <% cards_user.forEach(item => { %>
+                <div class="card" data-category="<%= item['Type'] || '' %>" data-name="<%= item['Name'] %>" data-quantity="<%= item['quantity'] %>" data-link="<%= item['Link'] %>" style="height: fit-content; margin-bottom: 10px; border: 1px solid #ccc; padding: 10px; border-radius: 5px; cursor: pointer;">
+                    <h2 class="card-name"><%= item['Name'] %></h2>
+                    <img src="<%= item['Link'] %>" alt="<%= item['Name'] %>" style="max-width: 100%; height: auto;">
+                    <p>Số lượng: <%= item['quantity'] %></p>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p style="text-align: center; color: #666;">No data available</p>
+        <% } %>
+    </div>
+
+    <div style="flex: 2; background-color: #ffe899; padding: 20px; border-radius: 10px;" id="card_choice">
+        <div style="display: flex; justify-content: space-between;"><h3>Thẻ đã chọn</h3><h3 id="count"></h3></div>
+        <div id="selected-cards" style=" overflow-y: auto;">
+          <div style="cursor: pointer;">Card</div>
+        </div>
+        <img id="hover-image" style="display:none; position:absolute; z-index:100;" />
+        <button id="submit" style="background-color: #1e7e34; color: #fff; width: 100%; margin: 0; margin-top: 10px; border: none; border-radius: 5px; cursor: pointer;">Xác nhận</button>
+        <textarea id="description" placeholder="Mô tả..."><%= motadeck %></textarea>
+        <button class="btn btn-warning" id="deleteButton">Xóa deck</button>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Bạn có chắc chắn muốn xóa deck?</h2>
+            <p>Hành động này sẽ xóa vĩnh viễn!</p>
+            <button id="confirmDelete">Xóa</button>
+            <button id="cancelDelete">Hủy</button>
+        </div>
+    </div>
+      </div>
+</div>
+</div>
+<script>
+  // Giả sử bạn đã có dữ liệu sẵn trong deck
+const initialSelectedCards = <%- JSON.stringify(cards_in_deck) %>;
+const selectedCards = [...initialSelectedCards];
+const searchInput = document.getElementById('searchInput');
+const filterButtons = document.querySelectorAll('.filter-button');
+const cards = document.querySelectorAll('.card');
+
+let count = 0;
+
+function countFunction() {
+  
+  document.getElementById('count').innerText = count+"/40";
+  if(count>=40){
+    document.getElementById('card-container').style.pointerEvents = 'none';
+  }else{
+    document.getElementById('card-container').style.pointerEvents = 'auto';
+  }
+}
+
+// Gọi hàm mỗi giây (1000 milliseconds)
+setInterval(countFunction, 100);
+
+filterButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const filter = button.getAttribute('data-filter');
+
+    cards.forEach(card => {
+      const category = card.getAttribute('data-category');
+      if (filter === 'all' || filter === category) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  });
+});
+
+
+searchInput.addEventListener('input', function() {
+  const searchValue = searchInput.value.toLowerCase();
+  cards.forEach(card => {
+    const cardNameElement = card.querySelector('h2');
+    console.log(cardNameElement)
+    if (cardNameElement) {
+      const cardName = cardNameElement.innerText.toLowerCase();
+      if (cardName.includes(searchValue)) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    } else {
+      card.style.display = 'none';
+    }
+  });
+});
+// Cập nhật số lượng thẻ ban đầu trên giao diện
+function initializeCards() {
+  selectedCards.forEach(item => {
+      const card = document.querySelector(`.card[data-name="${item.Name}"]`);
+      if (card) {
+          let quantityInCard = parseInt(card.getAttribute('data-quantity')) || 0;
+          quantityInCard -= item.quantity;
+          count+=item.quantity;
+          card.setAttribute('data-quantity', quantityInCard);
+          card.querySelector('p').textContent = `Số lượng: ${quantityInCard}`;
+
+          // Chỉ ẩn thẻ nếu số lượng bằng 0
+          if (quantityInCard <= 0) {
+              card.style.display = 'none';
+          } else {
+              card.style.display = 'block'; // Đảm bảo thẻ vẫn hiển thị nếu còn số lượng
+          }
+      }
+  });
+}
+
+// Hiển thị các thẻ chưa chọn và thẻ đã chọn
+function displayCards() {
+    const availableCards = document.querySelectorAll('.card');
+    availableCards.forEach(card => {
+        const name = card.getAttribute('data-name');
+        const isSelected = selectedCards.some(item => item.Name === name);
+        //card.style.display = isSelected ? 'none' : 'block'; // Ẩn thẻ đã chọn
+    });
+    updateSelection();
+}
+
+// Gọi hàm khởi tạo và hiển thị thẻ
+initializeCards();
+displayCards();
+
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', () => {
+      const name = card.getAttribute('data-name');
+      const link = card.getAttribute('data-link');
+      let quantity = parseInt(card.getAttribute('data-quantity'));
+
+      // Giảm số lượng nếu lớn hơn 0 và chưa đạt tối đa 4 thẻ trong lựa chọn
+      const existingCard = selectedCards.find(item => item.Name === name);
+      if (quantity > 0 && (!existingCard || existingCard.quantity < 4)) { 
+          quantity--; // Giảm số lượng trong thẻ gốc
+          card.setAttribute('data-quantity', quantity);
+          card.querySelector('p').textContent = `Số lượng: ${quantity}`; // Cập nhật nội dung
+
+          // Thêm vào lựa chọn nếu chưa có, hoặc tăng số lượng nếu đã có
+          if (!existingCard) {
+              selectedCards.push({ Name: name, quantity: 1 , link: link});
+          } else {
+              existingCard.quantity++; // Tăng số lượng trong lựa chọn
+          }
+
+          // Ẩn thẻ nếu số lượng bằng 0
+          if (quantity === 0) {
+              card.style.display = 'none';
+          }
+          count++;
+          updateSelection(); // Cập nhật danh sách đã chọn
+          displayCards(); // Cập nhật lại hiển thị thẻ
+      } else if (existingCard && existingCard.quantity >= 4) {
+          alert('Bạn chỉ có thể chọn tối đa 4 thẻ này');
+      }
+  });
+});
+
+
+
+function updateSelection() {
+    const selectedCardsContainer = document.getElementById('selected-cards');
+    selectedCardsContainer.innerHTML = '';
+
+    selectedCards.forEach(item => {
+      const div = document.createElement('div');
+      div.classList.add('pointer'); // Thêm class 'pointer'
+      div.dataset.image = item.link; 
+      
+      const nameDiv = document.createElement('div');
+      nameDiv.classList.add('pointer-name'); // Thêm class 'pointer-name'
+      nameDiv.textContent = item.Name; // Hiển thị tên
+  
+      const quantityDiv = document.createElement('div');
+      quantityDiv.classList.add('pointer-quantity'); // Thêm class 'pointer-quantity'
+      quantityDiv.textContent = item.quantity; // Hiển thị số lượng
+  
+      div.appendChild(nameDiv);
+      div.appendChild(quantityDiv);
+      
+      div.addEventListener('click', () => {
+          decreaseCardQuantity(item.Name);
+      });
+      selectedCardsContainer.appendChild(div);
+    });
+
+    
+    document.querySelectorAll('.pointer').forEach(card => {
+      const hoverImage = document.getElementById('hover-image');
+      
+      card.addEventListener('mouseover', (e) => {
+        const imageUrl = card.getAttribute('data-image');
+        
+        // Hiển thị ảnh khi trỏ vào thẻ
+        hoverImage.src = imageUrl;
+        hoverImage.style.display = 'block';
+      });
+      
+      card.addEventListener('mousemove', (e) => {
+        // Di chuyển ảnh theo vị trí trỏ chuột
+        hoverImage.style.left = `${e.pageX + 10}px`;  // Vị trí x, cách trỏ chuột 10px
+        hoverImage.style.top = `${e.pageY + 10}px`;   // Vị trí y, cách trỏ chuột 10px
+      });
+      
+      card.addEventListener('mouseout', () => {
+        // Ẩn ảnh khi di chuột ra khỏi thẻ
+        hoverImage.style.display = 'none';
+      });
+    });
+}
+
+
+function decreaseCardQuantity(name) {
+  const index = selectedCards.findIndex(item => item.Name === name);
+  if (index !== -1) {
+      const card = document.querySelector(`.card[data-name="${name}"]`);
+      let quantityInChoice = selectedCards[index].quantity;
+
+      // Giảm số lượng trong lựa chọn
+      quantityInChoice--;
+      selectedCards[index].quantity = quantityInChoice;
+
+      // Cập nhật nội dung hiển thị trong danh sách đã chọn
+      const selectedCardDivs = document.querySelectorAll('#selected-cards .pointer');
+      selectedCardDivs.forEach(div => {
+        const nameElement = div.querySelector('.pointer-name');
+        const quantityElement = div.querySelector('.pointer-quantity');
+
+        // Kiểm tra xem các phần tử có tồn tại không
+        if (nameElement && quantityElement && nameElement.textContent === name) {
+            quantityElement.textContent = quantityInChoice;
+
+            // Nếu số lượng trong lựa chọn = 0, xóa nó
+            if (quantityInChoice <= 0) {
+                div.remove(); // Xóa phần tử hiển thị trong danh sách đã chọn
+                selectedCards.splice(index, 1); // Cập nhật danh sách đã chọn
+            }
+        }
+        });
+      // Tăng số lượng trong thẻ gốc
+      let quantityInCard = parseInt(card.getAttribute('data-quantity'));
+      quantityInCard++;
+      card.setAttribute('data-quantity', quantityInCard);
+      card.querySelector('p').textContent = `Số lượng: ${quantityInCard}`; // Cập nhật nội dung
+
+      // Hiện lại thẻ nếu số lượng lớn hơn 0
+      if (quantityInCard > 0) {
+          card.style.display = 'block';
+      }
+      count--;
+  }
+}
+
+document.getElementById('submit').addEventListener('click', async () => {
+    card = Array.from(document.querySelectorAll('.pointer-name')).map(div => div.textContent);
+    quantitys = Array.from(document.querySelectorAll('.pointer-quantity')).map(div => div.textContent);
+    tendeck = document.getElementById('name_deck').value;
+    motadeck = document.getElementById('description').value;
+    console.log(tendeck)
+    try {
+      let data = {
+        motadeck: motadeck,
+        tendeck: tendeck,
+        cards: card,
+        quantitys: quantitys,
+        iddeck: <%- JSON.stringify(iddeck) %>,
+      };
+      // Gửi yêu cầu POST tới API
+      const response = await fetch('/TaiKhoan/Deck/xacnhan', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+      });
+      
+
+      // Xử lý phản hồi từ server
+      const result = await response.json();
+      console.log(result)
+
+      if (response.ok) {
+        alert('Cập nhật thành công')
+          
+      } else {
+          //messageDiv.innerHTML = `<p style="color:red;">${result.error}</p>`; // Hiển thị thông báo lỗi
+          alert('Có lỗi xảy ra')
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+    displayCards();
+    updateSelection();
+});
+
+//Button xóa ------------------------------------------------------------------------
+document.getElementById('deleteButton').addEventListener('click', function() {
+  document.getElementById('modal').style.display = 'block';
+});
+
+document.querySelector('.close').addEventListener('click', function() {
+  document.getElementById('modal').style.display = 'none';
+});
+
+document.getElementById('cancelDelete').addEventListener('click', function() {
+  document.getElementById('modal').style.display = 'none';
+});
+
+document.getElementById('confirmDelete').addEventListener('click',async function() {
+  // Gửi yêu cầu DELETE tới API
+  // Thực hiện hành động xóa ở đây
+  try {
+    let data = {
+      iddeck: <%- JSON.stringify(iddeck) %>,
+    };
+    // Gửi yêu cầu POST tới API
+    const response = await fetch('/TaiKhoan/Deck/xoa', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
+    
+
+    // Xử lý phản hồi từ server
+    const result = await response.json();
+    console.log(result)
+
+    if (response.ok) {
+      window.location.href = "/TaiKhoan";
+        
+    } else {
+        //messageDiv.innerHTML = `<p style="color:red;">${result.error}</p>`; // Hiển thị thông báo lỗi
+        alert('Có lỗi xảy ra')
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+  console.log('Đã xóa thành công!');
+  document.getElementById('modal').style.display = 'none'; // Đóng modal
+});
+//----------------------------------Code -------------------------------------------
+
+
+</script>
+
+</body>
+</html>

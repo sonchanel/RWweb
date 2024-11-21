@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <title><%= user[0].Username %></title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" href="images/Icon-rounded.png" type="image/png" sizes="32x32">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+      <style type="text/css">
+         body{
+         background:#eee;
+         padding-top:20px;
+         }
+         .img-fluid {
+         max-width: 100%;
+         height: auto;
+         }
+         .card {
+         margin-bottom: 30px;
+         }
+         .overflow-hidden {
+         overflow: hidden!important;
+         }
+         .p-0 {
+         padding: 0!important;
+         }
+         .mt-n5 {
+         margin-top: -3rem!important;
+         }
+         .linear-gradient {
+         background-image: linear-gradient(#50b2fc,#f44c66);
+         }
+         .rounded-circle {
+         border-radius: 50%!important;
+         }
+         .align-items-center {
+         align-items: center!important;
+         }
+         .justify-content-center {
+         justify-content: center!important;
+         }
+         .d-flex {
+         display: flex!important;
+         }
+         .rounded-2 {
+         border-radius: 7px !important;
+         }
+         .bg-light-info {
+         --bs-bg-opacity: 1;
+         background-color: rgba(235,243,254,1)!important;
+         }
+         .card {
+         margin-bottom: 30px;
+         }
+         .position-relative {
+         position: relative!important;
+         }
+         .shadow-none {
+         box-shadow: none!important;
+         }
+         .overflow-hidden {
+         overflow: hidden!important;
+         }
+         .border {
+         border: 1px solid #ebf1f6 !important;
+         }
+         .fs-6 {
+         font-size: 1.25rem!important;
+         }
+         .mb-2 {
+         margin-bottom: 0.5rem!important;
+         }
+         .d-block {
+         display: block!important;
+         }
+         a {
+         text-decoration: none;
+         }
+         .user-profile-tab .nav-item .nav-link.active {
+         color: #5d87ff;
+         border-bottom: 2px solid #5d87ff;
+         }
+         .mb-9 {
+         margin-bottom: 20px!important;
+         }
+         .fw-semibold {
+         font-weight: 600!important;
+         }
+         .fs-4 {
+         font-size: 1rem!important;
+         }
+         .card, .bg-light {
+         box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+         }
+         .fs-2 {
+         font-size: .75rem!important;
+         }
+         .rounded-4 {
+         border-radius: 4px !important;
+         }
+         .ms-7 {
+         margin-left: 30px!important;
+         }
+         .hover-img{
+            transition: transform 0.3s ease;
+         }
+         .hover-img:hover{
+            transform: scale(1.1); /* Phóng to */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+         }
+         .bordered {
+            border: 2px solid #000; /* Đường viền 2px, màu đen */
+            border-radius: 8px; /* Để tạo góc tròn cho viền */
+        }
+        .fade{
+         min-height: 500px;
+        }
+        .pack-list {
+         display: flex;
+         justify-content: center;
+         flex-wrap: wrap;
+     }
+   
+     .pack-item {
+         background-color: #fff;
+         border-radius: 10px;
+         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+         padding: 20px;
+         width: 20%;
+         margin: 10px;
+         text-align: center;
+     }
+   
+     .pack-item h2 {
+         font-size: 24px;
+         color: #333;
+     }
+   
+     .pack-item p { 
+         width: auto;
+         font-size: 16px;
+         color: #666;
+     }
+     .pack-item:hover{
+      transform: scale(1.1);
+      transition: 0.2s;
+     }
+     .price {
+         font-size: 28px;
+         color: #e74c3c;
+         margin: 15px 0;
+     }
+   
+     .buy-button {
+         padding: 10px 20px;
+         background-color: #3498db;
+         color: #fff;
+         border: none;
+         border-radius: 5px;
+         font-size: 16px;
+         cursor: pointer;
+     }
+   
+     .buy-button:hover {
+         background-color: #2980b9;
+     }
+     .border{
+      border: 1.5px solid #000000 !important;
+     }
+      </style>
+   </head>
+   <body>
+      <div class="container">
+         <div class="card overflow-hidden">
+            <div class="card-body p-0">
+               <img src="images/BannerAccount.png" alt class="img-fluid">
+               <div class="row align-items-center">
+                  <div class="col-lg-4 order-lg-1 order-2">
+                     <div class="d-flex align-items-center justify-content-around m-4">
+                        <div class="text-center">
+                           <!-- <i class="fa fa-deck fs-6 d-block mb-2"></i> -->
+                           <h4 class="mb-0 fw-semibold lh-1"><%= user_deck.length %></h4>
+                           <p class="mb-0 fs-4">Decks</p>
+                        </div>
+                        <div class="text-center">
+                           <!-- <i class="fa fa-file fs-6 d-block mb-2"></i> -->
+                           <h4 class="mb-0 fw-semibold lh-1"><%= cardnumber %></h4>
+                           <p class="mb-0 fs-4">Cards</p>
+                        </div>
+                        <!-- <div class="text-center">
+                           <i class="fa fa-check fs-6 d-block mb-2"></i>
+                           <h4 class="mb-0 fw-semibold lh-1">2,659</h4>
+                           <p class="mb-0 fs-4">Following</p>
+                        </div> -->
+                     </div>
+                  </div>
+                  <div class="col-lg-4 mt-n3 order-lg-2 order-1">
+                     <div class="mt-n5">
+                        <div class="d-flex align-items-center justify-content-center mb-2">
+                           <div class="linear-gradient d-flex align-items-center justify-content-center rounded-circle" style="width: 110px; height: 110px;" ;>
+                              <div class=" border-white d-flex align-items-center justify-content-center rounded-circle overflow-hidden" style="width: 100px; height: 100px;" ;>
+                                 <img src="images/AccountAva.png" alt class="w-100 h-100">
+                              </div>
+                           </div>
+                        </div>
+                        <div class="text-center">
+                           <h5 class="fs-5 mb-0 fw-semibold"><%= user[0].Username %></h5>
+                           <p class="mb-0 fs-4"></p>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-lg-4 order-last">
+                     <ul class="list-unstyled d-flex align-items-end flex-column-reverse justify-content-center justify-content-lg-start my-3 gap-3">
+                        <!-- <li class="position-relative">
+                           <a class="text-white d-flex align-items-center justify-content-center bg-primary p-2 fs-4 rounded-circle" href="javascript:void(0)" width="30" height="30">
+                           <i class="fa fa-facebook"></i>
+                           </a>
+                        </li>
+                        <li class="position-relative">
+                           <a class="text-white bg-secondary d-flex align-items-center justify-content-center p-2 fs-4 rounded-circle " href="javascript:void(0)">
+                           <i class="fa fa-twitter"></i>
+                           </a>
+                        </li>
+                        <li class="position-relative">
+                           <a class="text-white bg-secondary d-flex align-items-center justify-content-center p-2 fs-4 rounded-circle " href="javascript:void(0)">
+                           <i class="fa fa-dribbble"></i>
+                           </a>
+                        </li>
+                        <li class="position-relative">
+                           <a class="text-white bg-danger d-flex align-items-center justify-content-center p-2 fs-4 rounded-circle " href="javascript:void(0)">
+                           <i class="fa fa-youtube"></i>
+                           </a>
+                        </li> -->
+                        <li><a href="/" style="color: #f44c66;" class="m-2 btn btn-group">Quay về trang chủ >>></a></li>
+                     </ul>
+                  </div>
+               </div>
+               <ul class="nav nav-pills user-profile-tab justify-content-end mt-2 bg-light-info rounded-2" id="pills-tab" role="tablist">
+                  <li class="nav-item" role="presentation">
+                     <button class="nav-link position-relative active rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-6" id="pills-deck-tab" data-bs-toggle="pill" data-bs-target="#pills-deck" type="button" role="tab" aria-controls="pills-deck" aria-selected="false" tabindex="-1">
+                     <!-- <i class="fa fa-heart me-2 fs-6"></i> -->
+                     <span class="d-none d-md-block">Deck</span>
+                     </button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                     <button class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-6" id="pills-gallery-tab" data-bs-toggle="pill" data-bs-target="#pills-gallery" type="button" role="tab" aria-controls="pills-gallery" aria-selected="false" tabindex="-1">
+                     <!-- <i class="fa fa-photo me-2 fs-6"></i> -->
+                     <span class="d-none d-md-block">Card</span>
+                     </button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                     <button class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-6" id="pills-shop-tab" data-bs-toggle="pill" data-bs-target="#pills-shop" type="button" role="tab" aria-controls="pills-shop" aria-selected="false" tabindex="-1">
+                     <!-- <i class="fa fa-users me-2 fs-6"></i> -->
+                     <span class="d-none d-md-block">Shop</span>
+                     </button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                     <button class="nav-link position-relative rounded-0 d-flex align-items-center justify-content-center bg-transparent fs-3 py-6" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="true">
+                     <i class="fa fa-user me-2 fs-6"></i>
+                     <span class="d-none d-md-block">Profile</span>
+                     </button>
+                  </li>
+               </ul>
+            </div>
+         </div>
+         <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show" id="pills-gallery" role="tabpanel" aria-labelledby="pills-gallery-tab" tabindex="0">
+               <div class="d-sm-flex align-items-center justify-content-between mt-3 mb-4">
+                  <h3 class="mb-3 mb-sm-0 fw-semibold d-flex align-items-center">Card<span class="badge text-bg-secondary fs-2 rounded-4 py-1 px-2 ms-2"></span></h3>
+                  <div class="d-flex">
+                     <button class="btn btn-primary me-2 filter-button-card" data-filter="Attack" id="btn-attack-card">Attack</button>
+                     <button class="btn btn-primary filter-button-card" data-filter="Defense" id="btn-defense-card">Defense</button>
+                  </div>
+                  <form class="position-relative">
+                     <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh-card" placeholder="Search">
+                     <i class="ti ti-search position-absolute top-50 start-0 translate-middle-y text-dark ms-3"></i>
+                  </form>
+               </div>
+               <div class="row">
+                  <% if (user_card && user_card.length) { %>
+                     <% user_card.forEach(item => { %>
+                  <div class="col-md-6 col-lg-2 the" data-category="<%= item['addon'] || '' %>">
+                     <div class="card hover-img overflow-hidden rounded-2">
+                        <div class="card-body p-0">
+                                 <img src="<%= item['link'] %>" alt="<%= item['Name'] %>" class="img-fluid w-100 object-fit-cover" >
+                                 <div class="p-4 d-flex align-items-center justify-content-between">
+                                    <div>
+                                       <h6 class="fw-semibold mb-0 fs-4"><%= item['Name'] %></h6>
+                                       <span class="text-dark fs-2">Số lượng: <%= item['quantity'] %></span>
+                                    </div>
+                                 </div>                           
+                        </div>
+                     </div>
+                  </div>
+                  <% }); %>
+                            <% } else { %>
+                              <p style="text-align: center; color: #666;">No data available</p>
+                            <% } %>
+               </div>
+            </div>
+            <div class="tab-pane fade show active" id="pills-deck" role="tabpanel" aria-labelledby="pills-deck-tab" tabindex="0">
+               <div class="d-sm-flex align-items-center justify-content-between mt-3 mb-4">
+                  <h3 class="mb-3 mb-sm-0 fw-semibold d-flex align-items-center" id="chude">Deck<span class="badge text-bg-secondary fs-2 rounded-4 py-1 px-2 ms-2"></span></h3>
+                  <div class="d-flex">
+                     <button class="btn btn-primary me-2 filter-button-deck" data-filter="Attack" id="btn-attack-deck">Attack</button>
+                     <button class="btn btn-primary filter-button-deck" data-filter="Defense" id="btn-defense-deck">Defense</button>
+                  </div>
+                  <form class="position-relative">
+                     <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh-deck" placeholder="Search">
+                     <i class="ti ti-search position-absolute top-50 start-0 translate-middle-y text-dark ms-3"></i>
+                  </form>
+               </div>
+               <button class="btn btn-primary m-2" data-filter="Attack" id="btn-tao-deck">Tạo mới</button>
+               <div class="row">
+                  <% if (user_deck && user_deck.length) { %>
+                     <% user_deck.forEach(item => { %>
+                  <div class="col-md-6 col-lg-3 deck" data-id="<%= item['id'] || '' %>" data-category="<%= item['addon'] || '' %>">
+                     <div class="card hover-img overflow-hidden rounded-2">
+                        <div class="card-body p-0">
+                                 <!-- <img src="<%= item['link'] %>" alt="<%= item['name'] %>" class="img-fluid w-100 object-fit-cover" > -->
+                                 <div class="p-4 d-flex align-items-center justify-content-between">
+                                    <div>
+                                       <h6 class="fw-semibold mb-0 fs-4"><%= item['name'] %></h6>
+                                       <span class="text-dark fs-2">Mô tả: <%= item['description'] %></span>
+                                    </div>
+                                    <!-- <div class="dropdown">
+                                       <a class="text-muted fw-semibold d-flex align-items-center p-1" href="javascript:void(0)" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                       <i class="ti ti-dots-vertical"></i>
+                                       </a>
+                                       <ul class="dropdown-menu overflow-hidden">
+                                          <li><a class="dropdown-item" href="javascript:void(0)">Isuava wakceajo fe.jpg</a></li>
+                                       </ul>
+                                    </div> -->
+                                 </div>
+                        </div>
+                     </div>
+                  </div>
+                  <% }); %>
+                            <% } else { %>
+                              <p style="text-align: center; color: #666;">No data available</p>
+                            <% } %>
+               </div>
+            </div>
+            <div class="tab-pane fade show" id="pills-shop" role="tabpanel" aria-labelledby="pills-shop-tab" tabindex="0">
+               <div class="d-sm-flex align-items-center justify-content-between mt-3 mb-4">
+                  <h3 class="mb-3 mb-sm-0 fw-semibold d-flex align-items-center">Shop<span class="badge text-bg-secondary fs-2 rounded-4 py-1 px-2 ms-2"></span></h3>
+               </div>
+               <div class="row">
+                  <div class="col-md-6 col-lg-12">
+                     <div class="card overflow-hidden rounded-2">
+                        <div class="card-body p-0">
+                                 <div class="p-4 d-flex align-items-center justify-content-between" style="background-color: #e9e9e9;">
+                                    <div class="w-100 pack-list">
+                                    <% if (shop && shop.length) { %>
+                                       <% shop.forEach(item => { %>
+                                             <div class="pack-item m-3" style="background-color: #eaffe0;">
+                                                 <h2><%= item['Name'] %></h2>
+                                                 <img src="/images/Pack/<%= item['Image'] %>" alt="<%= item['Name'] %>" class="img-fluid w-100 object-fit-cover rounded" >
+                                                 <p class="mt-3" style="min-height:50px"><%= item['Description'] %></p>
+                                                 <div class="price text-nowrap"><%= item['Cost'].toLocaleString() %> vnđ</div>
+                                                 <button class="buy-button" data-id="<%= item['id']%>">Mua ngay</button>
+                                             </div>                                                                                                           
+                                       <% }); %>
+                                    <% } else { %>
+                                       <p style="text-align: center; color: #666;">No data available</p>
+                                    <% } %>
+                                    </div> 
+                                    
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+   const btn_mua = document.querySelectorAll('.buy-button');
+   btn_mua.forEach(item => {
+      item.addEventListener('click', function(){
+         const id = item.dataset.id;
+         window.location.href = `/ThanhToan?id=${id}`;
+      });
+   });
+
+   document.getElementById('btn-chinhsua').addEventListener('click', function() {
+      // Ẩn nút chỉnh sửa, đổi mật khẩu, đăng xuất và phần h4 email
+   document.getElementById('button-section').style.display = 'none';
+      document.getElementById('display-email').style.display = 'none';
+      
+      // Hiện input email và các nút xác nhận
+      document.getElementById('edit-email').style.display = 'inline';
+      document.getElementById('edit-actions').style.display = 'block';
+  });
+  
+  document.getElementById('btn-cancel').addEventListener('click', function() {
+      // Ẩn input email
+      document.getElementById('edit-email').style.display = 'none';
+  
+      // Hiện lại nút chỉnh sửa, đổi mật khẩu, đăng xuất và phần h4 email
+      document.getElementById('button-section').style.display = 'flex';
+      document.getElementById('display-email').style.display = 'inline';
+  
+      // Ẩn nút xác nhận
+      document.getElementById('edit-actions').style.display = 'none';
+  });
+  
+  document.getElementById('btn-save').addEventListener('click', function() {
+      const newEmail = document.getElementById('edit-email').value;
+  
+      // Cập nhật thông tin hiển thị
+      document.getElementById('display-email').textContent = newEmail;
+  
+      // Ẩn input email
+      document.getElementById('edit-email').style.display = 'none';
+  
+      // Hiện lại nút chỉnh sửa, đổi mật khẩu, đăng xuất và phần h4 email
+      document.getElementById('button-section').style.display = 'flex';
+      document.getElementById('display-email').style.display = 'inline';
+  
+      // Ẩn nút xác nhận
+      document.getElementById('edit-actions').style.display = 'none';
+  }); 
+  //---------------------------------------------------------------------------- 
+   document.getElementById('btn-doimatkhau').addEventListener('click', function() {
+      // Ẩn nút chỉnh sửa, đổi mật khẩu, đăng xuất
+      document.getElementById('button-section').style.display = 'none';
+
+      // Hiện phần đổi mật khẩu
+      document.getElementById('password-section').style.display = 'block';
+   });
+      // Xử lý sự kiện cho nút "Hủy bỏ" trong phần đổi mật khẩu
+   document.getElementById('btn-cancel-password').addEventListener('click', function() {
+      // Ẩn phần đổi mật khẩu
+      document.getElementById('password-section').style.display = 'none';
+
+      // Hiện lại nút chỉnh sửa, đổi mật khẩu, đăng xuất
+      document.getElementById('button-section').style.display = 'flex';
+   });
+
+   //Chỉnh sửa thông tin ----------------------------------------------------------------------------
+   document.getElementById('btn-save').addEventListener('click',async function() {
+      const newemail = document.getElementById('edit-email').value;
+
+      if(newemail!==''){
+
+      const data = {
+         newEmail: newemail,
+      };
+ 
+      try {
+         // Gửi yêu cầu POST tới API
+         const response = await fetch('/TaiKhoan/edit', {
+             method: 'POST',
+             headers: {
+                 'Content-Type': 'application/json',
+             },
+             body: JSON.stringify(data),
+         });
+         
+
+         // Xử lý phản hồi từ server
+         const result = await response.json();
+         console.log(result)
+
+         if (response.ok) {
+             //window.location.href = '/DangNhap';
+             alert('Đổi mật khẩu thành công')
+         } else {
+             //messageDiv.innerHTML = `<p style="color:red;">${result.error}</p>`; // Hiển thị thông báo lỗi
+             alert('Đổi mật khẩu thất bại')
+         }
+     } catch (error) {
+         console.error('Error:', error);
+     }
+   }else{
+      alert('Vui lòng nhập email')
+   }
+   });
+
+   // Xử lý sự kiện cho nút "Xác nhận" trong phần đổi mật khẩu-------------------------------------------
+   document.getElementById('btn-save-password').addEventListener('click',async function() {
+         // Lấy giá trị từ các trường input
+         const oldpassword = document.getElementById('old-password').value;
+         const newpassword = document.getElementById('new-password').value;
+         const confirmpassword = document.getElementById('confirm-password').value;
+         if(oldpassword !== '' || newpassword !== '' || confirmpassword !== ''){
+            
+         
+         if(newpassword === confirmpassword){
+
+         // Tạo đối tượng dữ liệu để gửi đi
+         const data = {
+            oldPassword: oldpassword,
+            newPassword: newpassword,
+         };
+ 
+         try {
+             // Gửi yêu cầu POST tới API
+             const response = await fetch('/TaiKhoan/changepassword', {
+                 method: 'POST',
+                 headers: {
+                     'Content-Type': 'application/json',
+                 },
+                 body: JSON.stringify(data),
+             });
+             
+ 
+             // Xử lý phản hồi từ server
+             const result = await response.json();
+
+             if (response.ok) {
+                 //window.location.href = '/DangNhap';
+                 alert('Đổi mật khẩu thành công')
+                 window.location.href = '/DangNhap';
+             } else {
+                 //messageDiv.innerHTML = `<p style="color:red;">${result.error}</p>`; // Hiển thị thông báo lỗi
+                 alert('Đổi mật khẩu thất bại')
+             }
+         } catch (error) {
+             console.error('Error:', error);
+         }
+         }else{
+            alert("Xác nhận mật khẩu thất bại")
+         }
+      }else{
+         alert("Nhập đầy đủ thông tin")
+      }
+      });
+      //Đăng xuất ----------------------------------
+      document.getElementById('btn-dangxuat').addEventListener('click',async function() {
+         try {
+            // Gửi yêu cầu POST tới API
+            const response = await fetch('/TaiKhoan/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            
+
+            // Xử lý phản hồi từ server
+            const result = await response.json();
+            console.log(result)
+
+            if (response.ok) {
+                window.location.href = '/DangNhap';
+            } else {
+                //messageDiv.innerHTML = `<p style="color:red;">${result.error}</p>`; // Hiển thị thông báo lỗi
+                alert('Đăng xuất thất bại')
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+      });
+   });
+</script>
+                                 </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="tab-pane fade show" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+               <div class="d-sm-flex align-items-center justify-content-between mt-3 mb-4">
+                  <h3 class="mb-3 mb-sm-0 fw-semibold d-flex align-items-center">Profile<span class="badge text-bg-secondary fs-2 rounded-4 py-1 px-2 ms-2"></span></h3>
+               </div>
+               <div class="row">
+                  <div class="col-md-6 col-lg-10">
+                     <div class="card overflow-hidden rounded-2">
+                        <div class="card-body p-0">
+                                 <div class="p-4 d-flex align-items-center justify-content-between">
+                                    <% if (user && user.length) { %>
+                                       <% user.forEach(item => { %>
+                                          <div>
+                                             <div>
+                                                <h4 class="fw-semibold mb-3" id="username-section">Tên tài khoản: 
+                                                    <span id="display-username"><%= item['Username'] %></span>
+                                                </h4>
+                                                <h4 class="fw-semibold mb-3" id="email-section">Email: 
+                                                    <span id="display-email"><%= item['Email'] %></span>
+                                                    <input type="email" id="edit-email" value="<%= item['Email'] %>" style="display:none;">
+                                                </h4>
+                                                <div id="button-section">
+                                                    <button class="btn btn-primary me-2 filter-button-user" id="btn-chinhsua">Chỉnh sửa</button>
+                                                    <button class="btn btn-primary me-2 filter-button-user" id="btn-doimatkhau">Đổi mật khẩu</button>
+                                                    <button class="btn btn-warning filter-button-user" id="btn-dangxuat">Đăng xuất</button>
+                                                </div>
+                                            
+                                                <div id="edit-actions" style="display:none; margin-top: 10px;">
+                                                    <button class="btn btn-success me-2" id="btn-save">Xác nhận</button>
+                                                    <button class="btn btn-secondary" id="btn-cancel">Hủy bỏ</button>
+                                                </div>
+
+                                                <div id="password-section" style="display:none; margin-top: 10px;">
+                                                   <h5 style="color: brown;">Đổi mật khẩu</h5>
+                                                   <div>Mật khẩu cũ</div>
+                                                   <input type="password" id="old-password" placeholder=""><br>
+                                                   <div>Mật khẩu mới</div>
+                                                   <input type="password" id="new-password" placeholder=""><br>
+                                                   <div>Xác nhận mật khẩu</div>
+                                                   <input type="password" id="confirm-password" placeholder="">
+                                                   <div class="d-flex mt-2">
+                                                       <button class="btn btn-success me-2" id="btn-save-password">Xác nhận</button>
+                                                       <button class="btn btn-secondary" id="btn-cancel-password">Hủy bỏ</button>
+                                                   </div>
+                                               </div>
+                                            </div>                                            
+                                          </div>                                                                                 
+                                       <% }); %>
+                                    <% } else { %>
+                                       <p style="text-align: center; color: #666;">No data available</p>
+                                    <% } %>
+<script>
+   document.getElementById('btn-chinhsua').addEventListener('click', function() {
+      // Ẩn nút chỉnh sửa, đổi mật khẩu, đăng xuất và phần h4 email
+   document.getElementById('button-section').style.display = 'none';
+      document.getElementById('display-email').style.display = 'none';
+      
+      // Hiện input email và các nút xác nhận
+      document.getElementById('edit-email').style.display = 'inline';
+      document.getElementById('edit-actions').style.display = 'block';
+  });
+  
+  document.getElementById('btn-cancel').addEventListener('click', function() {
+      // Ẩn input email
+      document.getElementById('edit-email').style.display = 'none';
+  
+      // Hiện lại nút chỉnh sửa, đổi mật khẩu, đăng xuất và phần h4 email
+      document.getElementById('button-section').style.display = 'flex';
+      document.getElementById('display-email').style.display = 'inline';
+  
+      // Ẩn nút xác nhận
+      document.getElementById('edit-actions').style.display = 'none';
+  });
+  
+  document.getElementById('btn-save').addEventListener('click', function() {
+      const newEmail = document.getElementById('edit-email').value;
+  
+      // Cập nhật thông tin hiển thị
+      document.getElementById('display-email').textContent = newEmail;
+  
+      // Ẩn input email
+      document.getElementById('edit-email').style.display = 'none';
+  
+      // Hiện lại nút chỉnh sửa, đổi mật khẩu, đăng xuất và phần h4 email
+      document.getElementById('button-section').style.display = 'flex';
+      document.getElementById('display-email').style.display = 'inline';
+  
+      // Ẩn nút xác nhận
+      document.getElementById('edit-actions').style.display = 'none';
+  }); 
+  //---------------------------------------------------------------------------- 
+   document.getElementById('btn-doimatkhau').addEventListener('click', function() {
+      // Ẩn nút chỉnh sửa, đổi mật khẩu, đăng xuất
+      document.getElementById('button-section').style.display = 'none';
+
+      // Hiện phần đổi mật khẩu
+      document.getElementById('password-section').style.display = 'block';
+   });
+      // Xử lý sự kiện cho nút "Hủy bỏ" trong phần đổi mật khẩu
+   document.getElementById('btn-cancel-password').addEventListener('click', function() {
+      // Ẩn phần đổi mật khẩu
+      document.getElementById('password-section').style.display = 'none';
+
+      // Hiện lại nút chỉnh sửa, đổi mật khẩu, đăng xuất
+      document.getElementById('button-section').style.display = 'flex';
+   });
+
+   //Chỉnh sửa thông tin ----------------------------------------------------------------------------
+   document.getElementById('btn-save').addEventListener('click',async function() {
+      const newemail = document.getElementById('edit-email').value;
+
+      if(newemail!==''){
+
+      const data = {
+         newEmail: newemail,
+      };
+ 
+      try {
+         // Gửi yêu cầu POST tới API
+         const response = await fetch('/TaiKhoan/edit', {
+             method: 'POST',
+             headers: {
+                 'Content-Type': 'application/json',
+             },
+             body: JSON.stringify(data),
+         });
+         
+
+         // Xử lý phản hồi từ server
+         const result = await response.json();
+         console.log(result)
+
+         if (response.ok) {
+             //window.location.href = '/DangNhap';
+             alert('Đổi mật khẩu thành công')
+         } else {
+             //messageDiv.innerHTML = `<p style="color:red;">${result.error}</p>`; // Hiển thị thông báo lỗi
+             alert('Đổi mật khẩu thất bại')
+         }
+     } catch (error) {
+         console.error('Error:', error);
+     }
+   }else{
+      alert('Vui lòng nhập email')
+   }
+   });
+
+   // Xử lý sự kiện cho nút "Xác nhận" trong phần đổi mật khẩu-------------------------------------------
+   document.getElementById('btn-save-password').addEventListener('click',async function() {
+         // Lấy giá trị từ các trường input
+         const oldpassword = document.getElementById('old-password').value;
+         const newpassword = document.getElementById('new-password').value;
+         const confirmpassword = document.getElementById('confirm-password').value;
+         if(oldpassword !== '' || newpassword !== '' || confirmpassword !== ''){
+            
+         
+         if(newpassword === confirmpassword){
+
+         // Tạo đối tượng dữ liệu để gửi đi
+         const data = {
+            oldPassword: oldpassword,
+            newPassword: newpassword,
+         };
+ 
+         try {
+             // Gửi yêu cầu POST tới API
+             const response = await fetch('/TaiKhoan/changepassword', {
+                 method: 'POST',
+                 headers: {
+                     'Content-Type': 'application/json',
+                 },
+                 body: JSON.stringify(data),
+             });
+             
+ 
+             // Xử lý phản hồi từ server
+             const result = await response.json();
+
+             if (response.ok) {
+                 //window.location.href = '/DangNhap';
+                 alert('Đổi mật khẩu thành công')
+                 window.location.href = '/DangNhap';
+             } else {
+                 //messageDiv.innerHTML = `<p style="color:red;">${result.error}</p>`; // Hiển thị thông báo lỗi
+                 alert('Đổi mật khẩu thất bại')
+             }
+         } catch (error) {
+             console.error('Error:', error);
+         }
+         }else{
+            alert("Xác nhận mật khẩu thất bại")
+         }
+      }else{
+         alert("Nhập đầy đủ thông tin")
+      }
+      });
+      //Đăng xuất ----------------------------------
+      document.getElementById('btn-dangxuat').addEventListener('click',async function() {
+         try {
+            // Gửi yêu cầu POST tới API
+            const response = await fetch('/TaiKhoan/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            
+
+            // Xử lý phản hồi từ server
+            const result = await response.json();
+            console.log(result)
+
+            if (response.ok) {
+                window.location.href = '/DangNhap';
+            } else {
+                //messageDiv.innerHTML = `<p style="color:red;">${result.error}</p>`; // Hiển thị thông báo lỗi
+                alert('Đăng xuất thất bại')
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+      });
+</script>
+                                 </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      
+      <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+      <script>
+
+         window.addEventListener('DOMContentLoaded', (event) => {
+            const button = document.getElementById('pills-deck-tab');
+            button.click(); // Kích hoạt sự kiện click
+        });
+
+         const filterButtonCards = document.querySelectorAll('.filter-button-card');
+         const cards = document.querySelectorAll('.the');
+         const searchCardInput = document.getElementById('text-srh-card');
+         let addonCard = 'Attack'
+
+      filterButtonCards.forEach(button => {
+         button.addEventListener('click', () => {
+            const filter = button.getAttribute('data-filter');
+            addonCard = filter.toString();
+           cards.forEach(card => {
+             const category = card.getAttribute('data-category');
+             if (filter === 'all' || filter === category) {
+               card.style.display = 'block';
+             } else {
+               card.style.display = 'none';
+             }
+           });
+         });
+       });
+       window.addEventListener('DOMContentLoaded', (event) => {
+         const button = document.getElementById('btn-attack-card');
+         button.click(); // Kích hoạt sự kiện click
+     });
+
+      // Lọc theo tên khi nhập vào thanh tìm kiếm
+      searchCardInput.addEventListener('input', function() {
+        const searchValue = searchCardInput.value.toLowerCase();
+        cards.forEach(card => {
+         const category = card.getAttribute('data-category');
+          const cardNameElement = card.querySelector('h6');
+          if (cardNameElement) {
+            const cardName = cardNameElement.innerText.toLowerCase();
+            if (cardName.includes(searchValue) && category === addonCard) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+//----------------------------------------------------------------------------------------
+
+         const filterButtonDecks = document.querySelectorAll('.filter-button-deck');
+         const decks = document.querySelectorAll('.deck');
+         const searchDeckInput = document.getElementById('text-srh-deck');
+         
+
+         const taomoi = document.getElementById('btn-tao-deck');
+         let addonDeck = 'Attack'
+ 
+         //Add button Tạo mới
+         taomoi.addEventListener('click', async function() {
+            try {
+               let data = {
+                  addon: addonDeck,
+                  namedeck: 'New deck',
+               };
+               // Gửi yêu cầu POST tới API
+               const response = await fetch('/TaiKhoan/taodeckmoi', {
+                   method: 'POST',
+                   headers: {
+                       'Content-Type': 'application/json',
+                   },
+                   body: JSON.stringify(data),
+               });
+               
+   
+               // Xử lý phản hồi từ server
+               const result = await response.json();
+               console.log(result)
+   
+               if (response.ok) {
+                   window.location.href = "/TaiKhoan/Deck?id_deck="+result.iddeck;
+               } else {
+                   alert('Có lỗi xảy ra')
+               }
+           } catch (error) {
+           }
+         });
+
+         //CHuyển hướng khi bấm vào deck
+         decks.forEach(deck => {
+            deck.addEventListener('click', () => {
+               window.location.href = "/TaiKhoan/Deck?id_deck="+deck.dataset.id;
+            })
+         });
+         //add button Attack và Defense
+         filterButtonDecks.forEach(button => {
+            button.addEventListener('click', () => {
+               if(button.innerText == 'Attack'){
+                  document.getElementById('chude').innerText = 'Deck Attack'  
+                  taomoi.dataset.filter = 'Attack'
+               }else{
+                  document.getElementById('chude').innerText = 'Deck Defense'
+                  taomoi.dataset.filter = 'Defense'
+               }
+               const filter = button.getAttribute('data-filter');
+               addonDeck = filter.toString();
+              decks.forEach(deck => {
+                const category = deck.getAttribute('data-category');
+                if (filter === 'all' || filter === category) {
+                  deck.style.display = 'block';
+                } else {
+                  deck.style.display = 'none';
+                }
+              });
+            });
+          });
+          window.addEventListener('DOMContentLoaded', (event) => {
+            const button = document.getElementById('btn-attack-deck');
+            button.click(); // Kích hoạt sự kiện click
+        });
+        //Code cho search deck
+        searchDeckInput.addEventListener('input', function() {
+         const searchValue = searchDeckInput.value.toLowerCase();
+         decks.forEach(deck => {
+          const category = deck.getAttribute('data-category');
+           const deckNameElement = deck.querySelector('h6');
+           if (deckNameElement) {
+             const deckName = deckNameElement.innerText.toLowerCase();
+             if (deckName.includes(searchValue) && category === addonDeck) {
+               deck.style.display = 'block';
+             } else {
+               deck.style.display = 'none';
+             }
+           } else {
+             deck.style.display = 'none';
+           }
+         });
+       });
+ 
+  </script>
+   </body>
+</html>

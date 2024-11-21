@@ -1,0 +1,663 @@
+<html lang="vi">
+<head>
+	<link rel="icon" type="image/png" href="img/logo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán</title>
+    <style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f8f8f8;
+			padding: 20px;
+			display: flex;
+			display-direction: column;
+			width: 100%;
+		}
+
+		#body-part {
+			font-family: Arial, sans-serif;
+			background-color: #f8f8f8;
+			padding: 20px;
+			width: 100%;
+		}
+
+		.cart-container {
+			width: 80%;
+			margin: auto;
+			background-color: #fff;
+			padding: 20px;
+			border-radius: 8px;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+			display: flex;
+		}
+
+		h1 {
+			font-size: 24px;
+			margin-bottom: 20px;
+			text-align: left;
+		}
+
+		.ngan-item{
+			width: 75%;
+			height: 60%;
+			border-right: 1px solid #ddd;
+			margin-right: 20px;
+			margin-left: 0px;
+			padding: 0px 18px 18px 18px;
+			right: 10px;
+		}
+		
+		.vung-item{
+			display: flex;
+			margin-right: 20px;
+			margin-left: 0px;
+			padding: 18px 18px 18px 18px;
+			right: 10px;
+			border: 1px solid #ddd;
+			border-radius: 10px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		}
+
+		.cart-item {
+			width: 32%;
+			flex-direction: column;
+			text-align: center;
+		}
+
+
+		.cart-item img {
+			width: 120px;
+			height: auto;
+		}
+
+		.item-details {
+			width: 48%;
+			flex-grow: 1;
+			padding: 0 20px;
+		}
+
+		.item-details h2 {
+			font-size: 18px;
+			margin-bottom: 10px;
+		}
+		
+		#monney {
+			width: 20%;
+			color: #ff0000;
+			font-size: 20px;
+			text-align: right;
+		}
+		
+		.cart-summary {
+			width: 25%;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			padding-top: 40px;
+		}
+
+		.payment-summary p {
+			margin-bottom: 10px;
+			font-size: 16px;
+		}
+
+		.payment-summary #gia {
+			font-size: 18px;
+			width: 100%;
+			font-weight: bold;
+			align: center;
+			text-align: center;
+		}
+
+		#payment-button {
+			width: 100%;
+			margin-top: 10px;
+			padding: 15px;
+			background-color: #007bff;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		
+		#payment-button:hover {
+			background-color: #0056b3;
+		}
+
+		#hiddenPage {
+			width: 100%;
+            display: none; /* Ẩn trang */
+			margin-top: 20px;
+            background-color: #f9f9f9;
+			justify-content: center;
+        }
+		
+		#qrcode {
+            padding: 20px;
+			margin-right: 10px;
+            background-color: white;
+			height: 180px
+			width: 180px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			
+        }
+	</style>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+	<div id="body-part">
+        <div id="thanhtoanbox">
+		<div class="cart-container" style="background-color: #f9f9f9;">
+			<!-- Sản phẩm trong giỏ hàng -->
+                <div class="ngan-item">
+                    <div style="flex-wrap: nowrap; margin: 10px; font-size: xx-large; font-weight: bold;">Thanh toán</div>
+                    <div class="vung-item" style="background-color: #f8f8f8;">
+                        <div class="cart-item">
+                            <img src="images/Pack/<%= pack[0].Image %>" style="border-radius: 10px; width: 100%;">
+                        </div>
+                    
+                        <div class="item-details">
+                            <h1><%= pack[0].Name %></h1>
+                            <div><%= pack[0].Description %></div>
+                        </div>
+                        <div id="monney" style="display:none"><%= pack[0].Cost.toLocaleString() %><sup> vnđ</sup></div>
+                    </div>
+                </div>
+                <!-- Thanh toán và mã ưu đãi -->
+                <div class="cart-summary">
+                    <h2 style="margin: 5px;">Thông tin</h2>
+                    <div style="flex-grow: 1; display: flex; flex-direction: column ;">
+                        <h4 style="margin: 5px;">
+                            Sản phẩm: <%= pack[0].Name %>
+                        </h4>
+                        <h4 style="margin: 5px;">
+                            Số lượng: <%= pack[0].Quantity %>
+                        </h4>
+                        <h4 style="margin: 5px;">
+                            Thể loại: <%= pack[0].Addon %>
+                        </h4>
+                        -------------------------------------
+                        <h4 style="margin: 5px;">
+                            Đơn giá: <%= pack[0].Cost.toLocaleString() %> vnđ                             
+                        </h4>
+                        <h4 style="margin: 5px;">
+                            Giảm giá: <%if(pack[0].Discount){ %><%= pack[0].Discount.toLocaleString()%> <%}%>
+                        </h4>
+                    </div>
+                    <!-- Thông tin tổng kết thanh toán -->
+                    <div class="payment-summary">
+                        <p>Tổng giá trị sản phẩm: </p>
+                        <div id="gia"div>
+                        <script>
+                            function copyValue() {
+                                // Lấy giá trị từ trường đầu tiên
+                                var tien = document.getElementById("monney").innerText;
+                                
+                                // Gán giá trị cho trường thứ hai
+                                document.getElementById("gia").innerText = tien;
+                            }
+                            copyValue();
+                        </script>
+
+                        <!-- Nút thanh toán -->
+                        <button id="payment-button">Thanh toán</button>
+                        
+                    </div>
+			</div>
+		</div>
+	</div>
+	<div id="hiddenPage">
+		<div id="qrcode"></div>
+		<div style="display: flex; justify-content: center; align-items: center; height: 180px;">
+			Vui lòng quét mã để thanh toán !
+		</div>
+		<script>
+			document.getElementById('qrcode').innerHTML = ""; // Xóa QR cũ
+            var qrURL = "00020101021238540010A00000072701240006970418011021501216320208QRIBFTTA530370454061000005802VN62100806pack 1630428D4";
+			var qrcode = new QRCode(document.getElementById("qrcode"), {
+				text: qrURL,
+				width: 140,
+				height: 140
+            });
+		</script>
+		<script>
+			document.getElementById("payment-button").onclick = function() {
+				// Hiện trang ẩn
+				document.getElementById("hiddenPage").style.display = "flex";
+			};
+		</script>
+	</div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+<style>
+    .cardbox {
+        border: 0px solid #ccc;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 10px;
+    }
+    .basic {
+        display: flex;
+        margin: 5px;
+        width: 200px;
+        height: 300px;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: flip 0.5s ease-out forwards;
+        animation-delay: 1s;
+    }
+    
+    @keyframes flip {
+        0% {
+            transform: rotateY(0deg);
+            box-shadow: none;
+        }
+        30% {
+            box-shadow: 0 0 30px 10px rgba(0, 255, 0, 1);
+        }
+        50% {
+            box-shadow: 0 0 23px 8px rgba(40, 255, 40, 0.8);
+        }
+        70% {
+            box-shadow: 0 0 17px 6px rgba(80, 255, 80, 0.5);
+        }
+        85% {
+            box-shadow: 0 0 10px 4px rgba(120, 255, 120, 0.1);
+        }
+        100% {
+            transform: rotateY(180deg);
+            box-shadow: none;
+        }
+    }
+
+    .rare-card {
+        width: 200px;
+        height: 300px;
+        margin: 5px;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: rare-flip 0.66s ease-out 1s forwards;
+    }
+    
+    @keyframes rare-flip {
+        0% {
+            transform: rotateY(0deg);
+            box-shadow: none;
+        }
+        30% {
+            box-shadow: 0 0 30px 10px rgba(0, 0, 255, 1);
+        }
+        50% {
+            box-shadow: 0 0 23px 8px rgba(40, 40, 255, 0.9);
+        }
+        70% {
+            box-shadow: 0 0 17px 6px rgba(80, 80, 255, 0.8);
+        }
+        85% {
+            box-shadow: 0 0 10px 4px rgba(120, 120, 255, 0.7);
+        }
+        100% {
+            transform: rotateY(180deg);
+            box-shadow: 0 0 10px 4px rgba(120, 120, 255, 0.6);
+        }
+    }
+    .superrare-card {
+        width: 200px;
+        height: 300px;
+        margin: 5px;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: superrare-flip 0.88s ease-out 1.4s forwards, superrare-blink 2s linear 3s infinite;
+    }
+    
+    @keyframes superrare-flip {
+        0% {
+            transform: rotateY(0deg);
+            box-shadow: none;
+        }
+        30% {
+            box-shadow: 0 0 30px 10px rgba(200, 0, 255, 1);
+        }
+        50% {
+            box-shadow: 0 0 23px 8px rgba(200, 0, 255, 0.9);
+        }
+        70% {
+            box-shadow: 0 0 17px 6px rgba(160, 0, 255, 0.8);
+        }
+        85% {
+            box-shadow: 0 0 10px 4px rgba(127, 0, 255, 0.7);
+        }
+        100% {
+            transform: rotateY(180deg);
+            box-shadow: none;
+        }
+    }
+    
+    @keyframes superrare-blink {
+        0%, 100% {
+            box-shadow: none;
+        }
+        50% {
+            box-shadow: 0 0 20px 10px rgba(127, 0, 255, 0.7);
+        }
+    }
+    .legend-card {
+        width: 200px;
+        height: 300px;
+        margin: 5px;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: legend-flip 1s ease-out 2s forwards, legend-blink 2s linear 3s infinite;
+    }
+    
+    @keyframes legend-flip {
+        0% {
+            transform: rotateY(0deg);
+            box-shadow: none;
+        }
+        30% {
+            box-shadow: 0 0 30px 10px rgba(255, 255, 0, 0.8);
+        }
+        50% {
+            box-shadow: 0 0 23px 8px rgba(255, 255, 40, 0.8);
+        }
+        70% {
+            box-shadow: 0 0 17px 6px rgba(255, 255, 80, 0.5);
+        }
+        85% {
+            box-shadow: 0 0 10px 4px rgba(255, 255, 120, 0.1);
+        }
+        100% {
+            transform: rotateY(180deg);
+            box-shadow: none;
+        }
+    }
+    
+    @keyframes legend-blink {
+        0%, 100% {
+            box-shadow: none;
+        }
+        50% {
+            box-shadow: 0 0 20px 10px rgba(255, 255, 0, 0.7);
+        }
+    }
+    
+    @keyframes fog {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
+    }
+    .star {
+        z-index: 1;
+        position: absolute;
+        bottom: 0px;
+        width: 5px;
+        height: 5px;
+        background-color: gold;
+        border-radius: 50%; 
+        animation: rise 2s linear infinite, twinkle 1s infinite;
+    }
+
+    @keyframes rise {
+        0% {
+            transform: translateY(0);
+        }
+        100% {
+            transform: translateY(-300px);
+        }
+    }
+
+    @keyframes twinkle {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
+    }
+    .pack-front, .pack-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 0px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .pack-front {
+        background-color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .pack-back {
+        background-color: #f9f9f9;
+        transform: rotateY(180deg);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    #homeButton {
+        font-size: larger;
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 10px 20px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    #homeButton:hover {
+        background-color: #0056b3;
+    }
+</style>
+<div id="card-container">
+    <div class="cardbox">
+        <div class="pack-container">
+            <div id="basic">
+            </div>
+        </div>
+    </div>
+    <div class="cardbox">
+        <div class="pack-container">
+            <div id="rare">
+            </div>
+        </div>
+    </div>
+    <div class="cardbox">
+        <div class="pack-container">
+            <div id="supperrare">
+            </div>
+        </div>
+    </div>
+    <div class="cardbox">
+        <div class="pack-container">
+            <div id="legendary">
+            </div>
+        </div>
+    </div>
+</div>
+
+  <div id="ids" style="display: none;"><%= id_pack%></div>
+  <div style=" height: 100px;">
+
+  </div>
+  <button id="homeButton" style="display: none;" onclick="goHome()">Quay lại trang chủ</button>
+  <script>
+    function goHome() {
+        window.location.href = '/TaiKhoan';
+    }
+    let gachaCards = [];
+
+    const cardBasic = document.getElementById('basic');
+    const cardRare = document.getElementById('rare');
+    const cardSupperRare = document.getElementById('supperrare');
+    const cardLegendary = document.getElementById('legendary');
+
+    const thanhtoanbox = document.getElementById('thanhtoanbox');
+
+
+    const typeOrder = {
+        'Basic': 1,
+        'Rare': 2,
+        'Supper Rare': 3,
+        'Legendary': 4
+    };
+
+    async function addCard() {
+        gachaCards.sort((a, b) => typeOrder[a.Rarity] - typeOrder[b.Rarity]);
+        const cardContainer = document.getElementById('card-container');
+        let index = 0; // Chỉ số để theo dõi thẻ hiện tại
+
+        async function showCard() {
+            if (index < gachaCards.length) {
+                const card = gachaCards[index];
+                const cardElement = document.createElement('div');
+                cardElement.className = 'card';
+                cardElement.innerHTML = `
+                        <div class="pack-front">
+                            <img src='images/Backside.png' style="width:100%;">
+                        </div>
+                        <div class="pack-back" style="z-index:3;">
+                            <img src="${card.link}" alt="${card.Name}" style="width:100%;">
+                        </div>
+                `;
+                if(gachaCards[index].Rarity == 'Basic'){
+                    await delay(1000);
+                    cardBasic.style.display = 'flex';
+                    cardBasic.style.flexWrap = 'wrap';
+                    cardElement.classList.add('basic');
+                    cardBasic.appendChild(cardElement);  
+
+                }else if(gachaCards[index].Rarity == 'Rare'){
+                    await delay(1500);
+                    cardRare.style.display = 'flex';
+                    cardRare.style.flexWrap = 'wrap';
+                    cardElement.classList.add('rare-card');
+                    cardRare.appendChild(cardElement);
+                    
+                }else if(gachaCards[index].Rarity == 'Supper Rare'){
+                    await delay(2000);
+                    cardSupperRare.style.display = 'flex';
+                    cardSupperRare.style.flexWrap = 'wrap';
+                    cardElement.classList.add('superrare-card');
+                    cardSupperRare.appendChild(cardElement);
+
+                }else if(gachaCards[index].Rarity == 'Legendary'){
+                    cardElement.innerHTML = `
+                        <div class="pack-front">
+                            <img src='images/Backside.png' style="width:100%;">
+                            <div class="star" style="left: 0%; animation-delay: 3s;"></div>
+                            <div class="star" style="left: 10%; animation-delay: 1.2s;"></div>
+                            <div class="star" style="left: 15%; animation-delay: 0.2s;"></div>
+                            <div class="star" style="left: 30%; animation-delay: 2.2s;"></div>
+                            <div class="star" style="left: 35%; animation-delay: 0.7s;"></div>
+                            <div class="star" style="left: 50%; animation-delay: 0s;"></div>
+                            <div class="star" style="left: 55%; animation-delay: 1.7s;"></div>
+                            <div class="star" style="left: 70%; animation-delay: 0.5s;"></div>
+                            <div class="star" style="left: 75%; animation-delay: 1s;"></div>
+                            <div class="star" style="left: 90%; animation-delay: 1.5s;"></div>
+                            <div class="star" style="left: 95%; animation-delay: 2s;"></div>
+                        </div>
+                        <div class="pack-back" style="z-index:3;">
+                            <img src="${card.link}" alt="${card.Name}" style="width:100%;">
+                            <div class="star" style="left: 0%; animation-delay: 3s;"></div>
+                            <div class="star" style="left: 10%; animation-delay: 1.2s;"></div>
+                            <div class="star" style="left: 15%; animation-delay: 0.2s;"></div>
+                            <div class="star" style="left: 30%; animation-delay: 2.2s;"></div>
+                            <div class="star" style="left: 35%; animation-delay: 0.7s;"></div>
+                            <div class="star" style="left: 50%; animation-delay: 0s;"></div>
+                            <div class="star" style="left: 55%; animation-delay: 1.7s;"></div>
+                            <div class="star" style="left: 70%; animation-delay: 0.5s;"></div>
+                            <div class="star" style="left: 75%; animation-delay: 1s;"></div>
+                            <div class="star" style="left: 90%; animation-delay: 1.5s;"></div>
+                            <div class="star" style="left: 95%; animation-delay: 2s;"></div>
+                        </div>
+                        `;
+                    await delay(2500);
+                    cardLegendary.style.display = 'flex';
+                    cardLegendary.style.flexWrap = 'wrap';
+                    cardElement.classList.add('legend-card');
+                    cardLegendary.appendChild(cardElement);
+                    
+                }
+                index++;
+                scrollToBottom();
+                setTimeout(showCard, 0);
+            }
+        }
+
+        await showCard(); // Bắt đầu hiển thị thẻ
+        document.getElementById('homeButton').style.display = 'block';   
+    }
+
+    function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    function scrollToBottom() {
+        window.scrollTo({
+            top: document.body.scrollHeight
+        });
+    }
+
+    document.getElementById('payment-button').addEventListener('click',async function() {
+    const data = {
+        id_pack: document.getElementById('ids').innerText,
+     };
+
+     try {
+        // Gửi yêu cầu POST tới API
+        const response = await fetch('/ThanhToan/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+        
+
+        // Xử lý phản hồi từ server
+        const result = await response.json();
+        console.log(result)
+
+        if (response.ok) {
+            gachaCards = result.cards;
+            alert('Thanh toán thành công')
+            thanhtoanbox.style.display = 'none';
+            document.body.style.backgroundColor = '#ddd';
+            document.getElementById('body-part').style.backgroundColor = '#ddd';
+            addCard();
+        } else {
+            //messageDiv.innerHTML = `<p style="color:red;">${result.error}</p>`; // Hiển thị thông báo lỗi
+            alert('Lỗi hệ thống')
+        }
+    } catch (error) {
+        
+    }
+    });
+  </script>
+  
