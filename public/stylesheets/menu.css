@@ -1,0 +1,124 @@
+body{
+    padding-top: 5%;
+}
+.menu{
+    display: flex;
+    align-items: center;
+       height:15%;
+    background-size: cover;
+    
+    position: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    top: 0;
+    background-image: url('/images/menu.png');
+    z-index: 2;
+}
+
+.menu .logo{
+ width: 100%;
+ text-align: center;
+ justify-content: center;
+ align-items: center  ;
+ margin: auto;
+    position: absolute;
+    display: flex; 
+}
+.menu .logo img{
+    height: 68px;
+}
+
+.menu-trai{
+    justify-content: center;
+    position: absolute;
+    top: 22%;
+    padding-left: 5%;
+}
+
+.menu-trai-items{
+    text-decoration: none;
+    color: white;
+    padding: 20px 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.menu-trai-items{
+    position: relative;
+}
+
+.menu-trai-items::after{
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(10deg, #ff1a1a, yellow, #0066ff, #66ff66);
+    bottom: 28%;
+    left: 17%;
+    right: 17%;
+    transition: 1.3s;
+}
+
+.menu-trai-items:hover::after{
+    width: 66%;
+}
+
+.menu-phai button{
+    font-family: Lucida Fax;
+    position: absolute;
+    right: 9%;
+    top: 8px;
+    width: 120px;
+    height: 45px;
+    background: linear-gradient(135deg, #8a2be2, #9400d3, #ff00ff);
+    color: white;
+    font-size: 14px;
+    text-align: center;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    border: none;
+    box-shadow: inset 0 0 10px 4px #000;
+}
+
+.menu-phai #login{
+    right: 2% !important;
+    clip-path: none !important;
+    box-shadow: none !important;
+    background: none !important;
+    
+}
+
+.menu-phai #def-button{
+    right: 19%;
+}
+
+.menu-phai #htp-button{
+    right: 29%;
+    background: linear-gradient(135deg, #ff2200, #ff00d3, #ff00ff) !important;
+}
+
+.menu-phai button:hover{
+    top: 2.5px;
+    right: 8.5%;
+    width: 130px;
+    height: 55px;
+    font-size: 16px;
+    color: red;
+    transition: 0.25s;
+}
+
+.menu-phai #login:hover{
+    right: 1.6% !important;
+    color: violet !important;
+}
+
+.menu-phai #def-button:hover{
+    color: #1a75ff !important;
+    right: 18.5%;
+}
+
+.menu-phai #htp-button:hover{
+    color: #ffff00 !important;
+    right: 28.5%;
+}
