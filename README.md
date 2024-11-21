@@ -24,6 +24,7 @@ Mỗi pack mang lại cơ hội sở hữu những lá bài hiếm và mạnh m�
 ![chucnangmuadeck](https://github.com/user-attachments/assets/f5961ac7-340e-452e-ad3c-d8f022468a4e)
 
 Các thẻ nhận được sau khi mua
+
 ![cardsdamua](https://github.com/user-attachments/assets/a3efc7b4-240a-4a94-8a0c-cd17e3e04dfc)
 
 Quản lý thẻ bài
